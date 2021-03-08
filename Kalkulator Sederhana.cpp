@@ -2,8 +2,8 @@
 
 using namespace std;
 
-double batas_atas, batas_bawah, bil_1, bil_2, atas, bawah, h, hasil;
-int pilihan;
+double bil_1, bil_2, atas, bawah, hasil;
+int pilihan, derajat, n;
 
 void tambah (double bil_1, double bil_2) {
 	cout<<"Masukkan bilangan pertama: "<<endl;
@@ -50,9 +50,65 @@ void pangkat (int basis, int pangkat) {
 	}
 }
 
-void integral (float atas, float bawah, float h) {
-	int r;
-	float f, f1, turunan;
+void integral (int derajat, double atas, double bawah, int n) {
+	
+	double a[1000];
+	cout<<"Integral hanya menerima fungsi polinomial\n"<<endl;
+	cout<<"Masukkan derajat polinomial"<<endl;
+	cin>>derajat;
+	for (int i=0; i<=derajat; i++) {
+		cout<<"Masukkan koefisien suku X pangkat "<<derajat - i<<endl;
+		cin>>a[i];
+	}
+	
+	cout<<"Masukkan batas bawah: "<<endl;
+	cin>>bawah;
+	cout<<"Masukkan batas atas: "<<endl;
+	cin>>atas;
+	cout<<"Masukkan nilai n (partisi): "<<endl;
+	cin>>n;
+	
+	double h = (atas-bawah)/n;
+	double y = 0;
+	for (int j=1; j<n; j++) {
+		double x = bawah + (j*h);
+		for (int k=0; k<=derajat; k++) {
+			int p = 0;
+			double temp1 = 1;
+			while (p < (derajat-k)) {
+				temp1 *= x;
+				p++;
+			}
+		double suku_1 = a[k]*(temp1);
+		y += suku_1;
+		
+		}
+	}
+	hasil = (2*y);
+	
+	for (int l=0; l<=derajat; l++) {
+		int q = 0;
+		double temp2 = 1;
+		while (q < (derajat-l)) {
+			temp2 *= bawah;
+			q++;
+		}
+		double suku_2 = a[l]*(temp2);
+		hasil += suku_2;
+	}
+	
+	for (int m=0; m<=derajat; m++) {
+		int r = 0;
+		double temp3 = 1;
+		while (r < (derajat-m)) {
+			temp3 *= atas;
+			r++;
+		}
+		double suku_3 = a[m]*(temp3);
+		hasil += suku_3;
+	}
+	
+	hasil = hasil*h/2;
 }
 
 int main () {
@@ -102,7 +158,7 @@ int main () {
 			break;
 			
 		case 6 :
-			integral(atas, bawah, h);
+			integral(derajat, atas, bawah, n);
 			cout<<endl;
 			cout<<"Hasil : "<<hasil<<endl;
 			break;
@@ -111,7 +167,6 @@ int main () {
 			cout<<"Pilihan tidak tersedia"<<endl;
 			break;
 	}
-	
+		
 	return 0;
 }
-
